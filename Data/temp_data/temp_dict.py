@@ -20,6 +20,10 @@ import requests
 def request_counties_raw_data():
     # Send a request for the data from the SRCC website. Use the "request.get" function to extract the dictionary of different counties.
 
+    counties_url = "https://www.srcc.tamu.edu/climate_data_portal/getCountyClimdivColorInState/?state=TX&countyclimdiv=-1&searchmethod=county&output=json"
+
+    response = requests.get(url=counties_url)
+    counties_data = response.json()
 
     return counties_data
 
@@ -28,7 +32,12 @@ def extract_list_of_counties(counties_data):
     Generate a dictionary for each county that contains "GEOID" and "name"
     Return as a list
     """
+
     list_of_counties = []
+    # for count in counties_data:
+    #     d = {}
+    #     # d["geoid"] = count[]
+
 
     return list_of_counties
 
@@ -37,7 +46,7 @@ def extract_list_of_counties(counties_data):
 def extract_list_of_stations(list_of_counties):
     """
     For each county, add list of stations, call request_stations_raw_data() for each geoid
-    list_of_countiess = [{
+    list_of_counties = [{
           "geoid": "48001",
           "name": "Anderson County"
         },...]
@@ -59,7 +68,7 @@ def request_stations_raw_data(geoid):
     Send "requests.get" to extract dictionary of station ids from SRCC website.
 
     Response data:
-    {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [-95.70639, 31.77972]}, "properties": {"title": "PALESTINE MUNICIPAL AP", "sid": "93983", "sid-type": "1", ...}
+    {{"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [-95.70639, 31.77972]}, "properties": {"title": "PALESTINE MUNICIPAL AP", "sid": "93983", "sid-type": "1", ...}}
 
     stations_ids = [{"title": "PALESTINE MUNICIPAL AP", "sid": "93983"},{},...]
 
@@ -102,19 +111,55 @@ def request_temps_raw_data(sid):
 
 def average_min_max(temps_data):
     """
-    Take the monthly min and max and calculate the average from 09-01-2018 to 06-01-2019."
+    Take the monthly min and max and calculate the average from 08-01-2018 to 06-01-2019. Add as values to dictionary
+
+    temps_data:
+    [{
+        "geoid": -,
+        "name": -,
+        "stations": [{"title": "PALESTINE MUNICIPAL AP", "sid": "93983"},{},...],
+        "sid": -,
+        "min_temps": [...],
+        "max_temps": [...]
+    }]
+
+
     """
     final_temps_data= []
 
     return final_temps_data
 
-def write_to_csv(final_temps_data):
+def sort_data(final_temps_data):
+    """
+    Sort data by county name
+    """
+
+    return sorted_data
+
+def write_to_csv(sorted_data):
     """Write the data to a csv with the list:
-        "county name"
+        "county_name"
         "GEOID"
         "station id"
         "station_title"
-        "Max"
-        "Min"
+        "avg_max"
+        "avg_min"
         """
+    
     return 
+
+if __name__ == "__main__":
+
+    BASE_DIR = "temp_data"
+    CSV_PATH = os.path.join(BASE_DIR, "temp_data.csv")
+
+    os.makedirs(BASE_DIR, exist_ok=True)
+
+    counties_data = request_counties_raw_data()
+    print(counties_data)
+    # list_of_counties = extract_list_of_counties(counties_data)
+    # list_of_stations = extract_list_of_stations(list_of_counties)
+    # list_of_temps = extract_min_max(list_of_stations)
+    # final_temp_data = average_min_max(list_of_temps)
+    # sorted_data = sort_data(final_temp_data)
+    # write_to_csv(sorted_data, CSV_PATH)
