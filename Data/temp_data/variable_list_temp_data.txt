@@ -1,0 +1,6 @@
+county_name: Name of each County in Texas
+geoid: County code 
+station_id_2018: Station used for 2018 portion of temp data 
+station_id_2019: Station used for 2019 portion of temp data 
+avg_max_temp: The monthly average of the maximum temperatures from August 1, 2018 to June 1, 2019 
+avg_min_temp: The monthly average of the minimum temperatures from August 1, 2018 to June 1, 2019
