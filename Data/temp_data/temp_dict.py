@@ -32,12 +32,14 @@ def extract_list_of_counties(counties_data):
     Generate a dictionary for each county that contains "GEOID" and "name"
     Return as a list
     """
+    counties = counties_data["nocolorgeojson"]["features"]
 
     list_of_counties = []
-    # for count in counties_data:
-    #     d = {}
-    #     # d["geoid"] = count[]
-
+    for county in counties:
+        d = {}
+        d["geoid"] = county["properties"]["geoid"]
+        d["county_name"] = county["properties"]["name"]
+        list_of_counties.append(d)
 
     return list_of_counties
 
@@ -60,6 +62,8 @@ def extract_list_of_stations(list_of_counties):
     """
     list_of_stations = []
 
+    print(request_stations_raw_data("48001"))
+
     return list_of_stations
 
 
@@ -76,6 +80,17 @@ def request_stations_raw_data(geoid):
     """
     station_ids = []
 
+    station_url = "https://www.srcc.tamu.edu/climate_data_portal/getStnsInCountyClimdiv/?countyclimdiv=" + geoid + "&searchmethod=county&typedata=annualsum&year=2018&month=0&element=maxt&output=json"
+
+    response = requests.get(url=station_url)
+    station_dict = response.json()
+
+    stations = station_dict["features"]
+    for s in stations:
+        d = {}
+        d["station_name"] = s["properties"]["title"]
+        d["station_id"] = s["properties"]["sid"]
+        station_ids.append(d)
 
     return station_ids
 
@@ -155,10 +170,11 @@ if __name__ == "__main__":
 
     os.makedirs(BASE_DIR, exist_ok=True)
 
-    counties_data = request_counties_raw_data()
-    print(counties_data)
-    # list_of_counties = extract_list_of_counties(counties_data)
-    # list_of_stations = extract_list_of_stations(list_of_counties)
+    # counties_data = request_counties_raw_data()
+    # remove later:
+    counties_data = {"colorgeojson": {"type": "FeatureCollection", "features": []}, "nocolorgeojson": {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "MultiPolygon", "coordinates": [[[[-95.27272, 31.59308], [-95.65318, 31.54162], [-95.646, 31.52704], [-95.73932, 31.50388], [-95.75368, 31.55191], [-95.71779, 31.55706], [-95.72856, 31.58193], [-95.71061, 31.61966], [-95.75368, 31.64968], [-95.76086, 31.59822], [-95.78598, 31.61795], [-95.79316, 31.68656], [-95.87572, 31.69428], [-95.87572, 31.75603], [-95.97622, 31.78862], [-95.99416, 31.84093], [-95.97622, 31.87781], [-96.02288, 31.87181], [-96.00134, 31.90611], [-96.01929, 31.95586], [-96.05518, 31.94814], [-96.05518, 32.0056], [-95.79316, 32.03648], [-95.42706, 32.08365], [-95.44859, 31.949], [-95.42347, 31.93184], [-95.445, 31.84265], [-95.4127, 31.83579], [-95.40193, 31.7646], [-95.3445, 31.73544], [-95.2763, 31.65483], [-95.27272, 31.59308]]]]}, "properties": {"geoid": "48001", "name": "Anderson County"}}, {"type": "Feature", "geometry": {"type": "MultiPolygon", "coordinates": [[[[-102.21082, 32.52361], [-102.21082, 32.08708], [-102.28979, 32.08708], [-102.79947, 32.08536], [-103.06507, 32.08708], [-103.06507, 32.5219], [-102.37593, 32.52276], [-102.21082, 32.52361]]]]}, "properties": {"geoid": "48003", "name": "Andrews County"}}]}}
+    list_of_counties = extract_list_of_counties(counties_data)
+    list_of_stations = extract_list_of_stations(list_of_counties)
     # list_of_temps = extract_min_max(list_of_stations)
     # final_temp_data = average_min_max(list_of_temps)
     # sorted_data = sort_data(final_temp_data)
