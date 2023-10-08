@@ -48,6 +48,7 @@ def extract_list_of_counties(counties_data):
 def extract_list_of_stations(list_of_counties):
     """
     For each county, add list of stations, call request_stations_raw_data() for each geoid
+
     list_of_counties = [{
           "geoid": "48001",
           "name": "Anderson County"
@@ -60,11 +61,12 @@ def extract_list_of_stations(list_of_counties):
         "stations": [...]
     }]
     """
-    list_of_stations = []
 
-    print(request_stations_raw_data("48001"))
+    for county in list_of_counties:
+        geoid = county["geoid"]
+        county["stations"] = request_stations_raw_data(geoid)
 
-    return list_of_stations
+    return list_of_counties
 
 
 def request_stations_raw_data(geoid):
