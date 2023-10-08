@@ -1,24 +1,20 @@
-
-"""
-Game plan
-    Use the "request raw data" to make a request for all counties in Texas that returns a list of counties
-    Using that data create a dictionary of all the counties in Texas that have the GEOID and county name as keys in the dictionaries of each county
-    After the variable "GEOID" is established, use that variable for the "request raw data" url for station level data
-    Use that data to create a list of stations with "stationid (sid)" and "station name (title)" as the keys in each station dictionary
-    After the sid is obtained, use that to plug into the url for "request raw data" for the actual monthly min and max temperatures.
-    Use the "BeautifulSoup" library to extract the monthly min and max values from given code
-    Then create a dictionary for each stationid that contains "min" and "max" as keys in the dictionary
-"""
-
 import os
 import csv
 import requests
+import json
+import time
+from operator import itemgetter
 
 from bs4 import BeautifulSoup
 
 
 def request_counties_raw_data():
-    # Send a request for the data from the SRCC website. Use the "request.get" function to extract the dictionary of different counties.
+    """
+    Send a request for the data from the SRCC website. Use the "request.get" function to extract the dictionary of different counties.
+    
+    Return:
+    raw counties data response object
+    """
 
     counties_url = "https://www.srcc.tamu.edu/climate_data_portal/getCountyClimdivColorInState/?state=TX&countyclimdiv=-1&searchmethod=county&output=json"
 
@@ -29,8 +25,16 @@ def request_counties_raw_data():
 
 def extract_list_of_counties(counties_data):
     """
-    Generate a dictionary for each county that contains "GEOID" and "name"
+    Generate a dictionary for each county that contains "geoid" and "county_name"
     Return as a list
+
+    Return:
+    List of dictionaries where each dictionary contains "geoid", "county_name" as keys and their values
+
+    list_of_counties = [{
+          "geoid": "48001",
+          "county_name": "Anderson County"
+        },...]
     """
     counties = counties_data["nocolorgeojson"]["features"]
 
@@ -51,20 +55,27 @@ def extract_list_of_stations(list_of_counties):
 
     list_of_counties = [{
           "geoid": "48001",
-          "name": "Anderson County"
+          "county_name": "Anderson County"
         },...]
     
-    Return list of dictionary of stations
+    Return:
+    list of dictionaries of counties and their stations
     [{
         "geoid": -,
-        "name": -,
+        "county_name": -,
         "stations": [...]
     }]
     """
+    num_counties = str(len(list_of_counties))
+    print("Getting list of stations for " + num_counties + " counties")
 
+    i = 0
     for county in list_of_counties:
+        time.sleep(1)
         geoid = county["geoid"]
         county["stations"] = request_stations_raw_data(geoid)
+        print("Got stations for " + county["county_name"] + ", " + str(i+1) + "/" + num_counties)
+        i += 1
 
     return list_of_counties
 
@@ -77,8 +88,6 @@ def request_stations_raw_data(geoid):
     {{"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [-95.70639, 31.77972]}, "properties": {"title": "PALESTINE MUNICIPAL AP", "sid": "93983", "sid-type": "1", ...}}
 
     stations_ids = [{"title": "PALESTINE MUNICIPAL AP", "sid": "93983"},{},...]
-
-    MAKE SURE TO ADD AN OPTION FOR EMPTY LIST IF NO STATIONS EXIST
     """
     station_ids = []
 
@@ -99,84 +108,96 @@ def request_stations_raw_data(geoid):
 
 def extract_min_max(list_of_counties):
     """
-
     For each county, iterate through stations until one successful min and max temp extraction
     
-
-    list_of_stations:
+    list_of_counties:
     [{
         "geoid": -,
-        "name": -,
+        "county_name": -,
         "stations": [{"title": "PALESTINE MUNICIPAL AP", "sid": "93983"},{},...]
     },...]
 
     Use "BeautifulSoup" to extract the monthly minimum and maximum temperature tables to create a list using sid
 
-    return:
+    Return:
     [{
         "geoid": -,
-        "name": -,
+        "county_name": -,
         "stations": [{"title": "PALESTINE MUNICIPAL AP", "station_id": "93983"},{},...],
-        "station_id": -,
-        "min_temps": [...],
-        "max_temps": [...]
+        "station_id_2018": -,
+        "station_id_2019": -,
+        "min_temps_2018": [...],
+        "max_temps_2018": [...],
+        "min_temps_2019": [...],
+        "max_temps_2019": [...]
     }]
     """
 
+    num_counties = str(len(list_of_counties))
+    print("Processing " + num_counties + " counties")
+
+    i = 0
     for county in list_of_counties:
-        for station in county["stations"]:
-            temps_dict = request_temps_raw_data(station["station_id"])
-            temps_table = temps_dict["table"]
+        time.sleep(2)
+        for year in ["2018", "2019"]:
+            max_temp_key = "max_temps_" + year
+            min_temp_key = "min_temps_" + year
+            station_key = "station_id_" + year
 
-            soup = BeautifulSoup(temps_table, "html.parser")
-            data_tables = soup.findAll("table")
-            table = data_tables[-1]
+            for station in county["stations"]:
+                temps_dict = request_temps_raw_data(station["station_id"], year)
+                temps_table = temps_dict["table"]
 
-            if not table:
-                continue
+                soup = BeautifulSoup(temps_table, "html.parser")
+                data_tables = soup.findAll("table")
+                table = data_tables[-1]
 
-            max_row = table.find("th", string="Max").find_parent("tr")
-            min_row = table.find("th", string="Min").find_parent("tr")
+                if not table:
+                    continue
 
-            max_values = [td.get_text() for td in max_row.find_all("td")]
-            min_values = [td.get_text() for td in min_row.find_all("td")]
+                max_row = table.find("th", string="Max").find_parent("tr")
+                min_row = table.find("th", string="Min").find_parent("tr")
 
-            bad_value = False
-            for max_val in max_values:
-                if max_val == "M":
-                    bad_value = True
-            for min_val in min_values:
-                if min_val == "M":
-                    bad_value = True
-            if bad_value:
-                continue
+                max_values = [td.get_text() for td in max_row.find_all("td")]
+                min_values = [td.get_text() for td in min_row.find_all("td")]
 
-            county["max_temps"] = max_values
-            county["min_temps"] = min_values
-            county["station_id"] = station["station_id"]
+                bad_value = False
+                for max_val in max_values:
+                    if max_val == "M":
+                        bad_value = True
+                for min_val in min_values:
+                    if min_val == "M":
+                        bad_value = True
+                if bad_value:
+                    continue
 
-            break
-        
-        if "max_temps" not in county:
-            county["max_temps"] = []
-            print("Max temps not found for county" + county["name"])
-            county["station_id"] = ""
+                county[max_temp_key] = [int(k) for k in max_values]
+                county[min_temp_key] = [int(k) for k in min_values]
+                county[station_key] = station["station_id"]
+
+                break
+
+            # only need to check either max_temp or min_temp since both get added only if both have all valid values
+            if max_temp_key not in county:
+                county[max_temp_key] = []
+                county[min_temp_key] = []
+                county[station_key] = ""
+                print("Valid temps not found for county " + county["county_name"] + " in year " + year)
+        print("Finished county " + county["county_name"] + ", " + str(i+1) + "/" + num_counties)
+        i += 1
             
-        if "min_temps" not in county:
-            county["min_temps"] = []
-            print("Min temps not found for county" + county["name"])
-
     return list_of_counties
 
 
-def request_temps_raw_data(sid):
+def request_temps_raw_data(sid, year):
     """
     Use "requests.get" to extract monthly min and max temps for the each station. 
 
-    The dictionary that gets returned has the temps a key "table"
+    Return:
+    Dictionary that gets returned has the temps in a key "table"
     """
-
-    temps_url = "https://www.srcc.tamu.edu/climate_data_portal/getDataInStn/?sid=" + sid + "&year=2018&elem=maxt&output=json"
+    
+    temps_url = "https://www.srcc.tamu.edu/climate_data_portal/getDataInStn/?sid=" + sid + "&year=" + year + "&elem=maxt&output=json"
 
     response = requests.get(url=temps_url)
     temps_data = response.json()
@@ -191,52 +212,103 @@ def average_min_max(temps_data):
     temps_data:
     [{
         "geoid": -,
-        "name": -,
-        "stations": [{"title": "PALESTINE MUNICIPAL AP", "sid": "93983"},{},...],
-        "sid": -,
-        "min_temps": [...],
-        "max_temps": [...]
-    }]
+        "county_name": -,
+        "stations": [{"title": "PALESTINE MUNICIPAL AP", "station_id": "93983"},{},...],
+        "station_id_2018": -,
+        "station_id_2019": -,
+        "min_temps_2018": [...],
+        "max_temps_2018": [...],
+        "min_temps_2019": [...],
+        "max_temps_2019": [...]
+    },...]
 
-
+    
+    Return:
+    [{
+        "geoid": -,
+        "county_names": -,
+        "stations": [{"title": "PALESTINE MUNICIPAL AP", "station_id": "93983"},{},...],
+        "station_id_2018": -,
+        "station_id_2019": -,
+        "min_temps_2018": [...],
+        "max_temps_2018": [...],
+        "min_temps_2019": [...],
+        "max_temps_2019": [...]
+        "avg_min_temp": -,
+        "avg_max_temp": -
+    },...]
     """
-    final_temps_data= []
 
-    return final_temps_data
+    for county in temps_data:
+        max_temps = county["max_temps_2018"][7:]+county["max_temps_2019"][:6]
+        min_temps = county["min_temps_2018"][7:]+county["min_temps_2019"][:6]
+        county["avg_max_temp"] = round(sum(max_temps)/len(max_temps),2) if max_temps else ""
+        county["avg_min_temp"] = round(sum(min_temps)/len(min_temps),2) if min_temps else ""
+   
 
-def sort_data(final_temps_data):
+    return temps_data
+
+
+def sort_data(final_temp_data):
     """
     Sort data by county name
+
+    Return:
+    sorted data
     """
+    sorted_data = sorted(final_temp_data, key=itemgetter("county_name"))
 
     return sorted_data
 
-def write_to_csv(sorted_data):
-    """Write the data to a csv with the list:
-        "county_name"
-        "GEOID"
-        "station id"
-        "station_title"
-        "avg_max"
-        "avg_min"
-        """
+
+def write_to_csv(sorted_data, path):
+    """
+    Write the data to a csv with order:
+    "county_name", "geoid", "station_id_2018","station_id_2019", "avg_max_temp", "avg_min_temp"
+    """
     
-    return 
+    with open(path, "w", newline="") as csvfile:
+        fieldnames = ["county_name", "geoid", "station_id_2018","station_id_2019", "avg_max_temp", "avg_min_temp"]
+        writer = csv.writer(csvfile)
+        writer.writerow(fieldnames)
+        for county in sorted_data:
+            writer.writerow([county["county_name"], county["geoid"], county["station_id_2018"], county["station_id_2019"], county["avg_max_temp"], county["avg_min_temp"]])
+
+    return
+
 
 if __name__ == "__main__":
 
-    BASE_DIR = "temp_data"
-    CSV_PATH = os.path.join(BASE_DIR, "temp_data.csv")
+    base_dir = "Data/temp_data/"
+    csv_path = os.path.join(base_dir, "temp_data.csv")
 
-    os.makedirs(BASE_DIR, exist_ok=True)
+    os.makedirs(base_dir, exist_ok=True)
 
-    # counties_data = request_counties_raw_data()
-    # remove later:
-    counties_data = {"colorgeojson": {"type": "FeatureCollection", "features": []}, "nocolorgeojson": {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "MultiPolygon", "coordinates": [[[[-95.27272, 31.59308], [-95.65318, 31.54162], [-95.646, 31.52704], [-95.73932, 31.50388], [-95.75368, 31.55191], [-95.71779, 31.55706], [-95.72856, 31.58193], [-95.71061, 31.61966], [-95.75368, 31.64968], [-95.76086, 31.59822], [-95.78598, 31.61795], [-95.79316, 31.68656], [-95.87572, 31.69428], [-95.87572, 31.75603], [-95.97622, 31.78862], [-95.99416, 31.84093], [-95.97622, 31.87781], [-96.02288, 31.87181], [-96.00134, 31.90611], [-96.01929, 31.95586], [-96.05518, 31.94814], [-96.05518, 32.0056], [-95.79316, 32.03648], [-95.42706, 32.08365], [-95.44859, 31.949], [-95.42347, 31.93184], [-95.445, 31.84265], [-95.4127, 31.83579], [-95.40193, 31.7646], [-95.3445, 31.73544], [-95.2763, 31.65483], [-95.27272, 31.59308]]]]}, "properties": {"geoid": "48001", "name": "Anderson County"}}, {"type": "Feature", "geometry": {"type": "MultiPolygon", "coordinates": [[[[-102.21082, 32.52361], [-102.21082, 32.08708], [-102.28979, 32.08708], [-102.79947, 32.08536], [-103.06507, 32.08708], [-103.06507, 32.5219], [-102.37593, 32.52276], [-102.21082, 32.52361]]]]}, "properties": {"geoid": "48003", "name": "Andrews County"}}]}}
+    counties_data = request_counties_raw_data()
     list_of_counties = extract_list_of_counties(counties_data)
     counties_with_stations = extract_list_of_stations(list_of_counties)
+    
+    # save list of counties with stations to file
+    stations_path = "Data/temp_data/counties_with_stations.json"
+    with open(stations_path, "w") as stations_file:
+        json.dump(counties_with_stations, stations_file)
+    
+    counties_with_stations = []
+    with open(stations_path, encoding="utf-8") as f:
+        counties_with_stations = json.loads(f.read())
+
     counties_with_stations_temps = extract_min_max(counties_with_stations)
-    print(counties_with_stations_temps)
-    # final_temp_data = average_min_max(counties_with_stations_temps)
-    # sorted_data = sort_data(final_temp_data)
-    # write_to_csv(sorted_data, CSV_PATH)
+    
+    # save list of counties with temps to file
+    counties_with_stations_temps_path = "Data/temp_data/temps.json"
+    with open(counties_with_stations_temps_path, "w") as temps_file:
+        json.dump(counties_with_stations_temps, temps_file)
+
+    counties_with_stations_temps = []
+    with open(counties_with_stations_temps_path, encoding="utf-8") as f:
+        counties_with_stations_temps = json.loads(f.read())
+
+    # calculate averages, sort, and write to csv
+    final_temp_data = average_min_max(counties_with_stations_temps)
+    sorted_data = sort_data(final_temp_data)
+    write_to_csv(sorted_data, csv_path)
