@@ -279,7 +279,7 @@ def write_to_csv(sorted_data, path):
 
 if __name__ == "__main__":
 
-    base_dir = "Data/temp_data/"
+    base_dir = "data/temp_data/"
     csv_path = os.path.join(base_dir, "temp_data.csv")
 
     os.makedirs(base_dir, exist_ok=True)
@@ -289,7 +289,7 @@ if __name__ == "__main__":
     counties_with_stations = extract_list_of_stations(list_of_counties)
     
     # save list of counties with stations to file
-    stations_path = "Data/temp_data/counties_with_stations.json"
+    stations_path = "data/temp_data/counties_with_stations.json"
     with open(stations_path, "w") as stations_file:
         json.dump(counties_with_stations, stations_file)
     
@@ -300,7 +300,7 @@ if __name__ == "__main__":
     counties_with_stations_temps = extract_min_max(counties_with_stations)
     
     # save list of counties with temps to file
-    counties_with_stations_temps_path = "Data/temp_data/temps.json"
+    counties_with_stations_temps_path = "data/temp_data/temps.json"
     with open(counties_with_stations_temps_path, "w") as temps_file:
         json.dump(counties_with_stations_temps, temps_file)
 
