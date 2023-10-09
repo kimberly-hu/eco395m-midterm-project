@@ -65,24 +65,23 @@ print(merged_data.head(5))
 
 print(temp_data.head(5))
 
-temp_data.rename(columns={'avg_max_temp':'Avg_Max_Temp', 
+print(temp_data.dtypes)
+
+# Convert county name in temperature data into the same format as in education data. 
+temp_data['county_name'] = temp_data['county_name'].str.upper()
+temp_data['county_name'] = temp_data['county_name'].str[:-7]
+
+temp_data.rename(columns={'county_name':'County_Name', 
+                          'avg_max_temp':'Avg_Max_Temp', 
                           'avg_min_temp':'Avg_Min_Temp'
                           }, 
                           inplace=True)
 
-print(temp_data.dtypes)
-
-# Convert county codes in temperature data to the same format as in education data.
-temp_data['geoid'] = temp_data['geoid'].astype(str)
-temp_data['County'] = temp_data['geoid'].str[2:]
-
-print(temp_data.head(5))
-
 
 # Merge temperature data on county code
-all_data = merged_data.merge(temp_data[['Avg_Max_Temp', 'Avg_Min_Temp', 'County']],
+all_data = merged_data.merge(temp_data[['Avg_Max_Temp', 'Avg_Min_Temp', 'County_Name']],
                              how='left',
-                             on='County')
+                             on='County_Name')
 
 print(all_data.head(5))
 
