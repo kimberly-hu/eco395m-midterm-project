@@ -54,8 +54,7 @@ output_path = "artifacts"
 
 all_data = pd.read_csv(os.path.join(data_path, "all_data.csv"))
 summ_df = summ_stats(all_data)
-summ_df.to_csv(os.path.join(output_path,"summary_statistics.csv"), index=False)
-
+summ_df.to_csv(os.path.join(output_path, "summary_statistics.csv"), index=False)
 
 
 def gen_scatter_plots(df, str, path):
@@ -127,10 +126,10 @@ def gen_scatter_plots(df, str, path):
         plt.clf()
 
 
-bio_path = os.path.join(output_path,"scatter_plots","Scatter_Biology")
-alg_path = os.path.join(output_path,"scatter_plots","Scatter_Algebra")
-eng_path = os.path.join(output_path,"scatter_plots","Scatter_English")
-hist_path = os.path.join(output_path,"scatter_plots","Scatter_History")
+bio_path = os.path.join(output_path, "scatter_plots", "Scatter_Biology")
+alg_path = os.path.join(output_path, "scatter_plots", "Scatter_Algebra")
+eng_path = os.path.join(output_path, "scatter_plots", "Scatter_English")
+hist_path = os.path.join(output_path, "scatter_plots", "Scatter_History")
 
 gen_scatter_plots(all_data, "Algebra_Rate", alg_path)
 gen_scatter_plots(all_data, "Biology_Rate", bio_path)
