@@ -5,7 +5,6 @@ import seaborn as sns
 import numpy as np
 from scipy.stats import linregress
 
-
 def float_(df):
     """Create a list of float type variables in a data frame"""
 
