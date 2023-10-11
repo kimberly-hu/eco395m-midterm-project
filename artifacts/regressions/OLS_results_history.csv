@@ -3,7 +3,7 @@ Dep. Variable:   ,US_History_Rate ,  R-squared:         ,   0.166
 Model:           ,OLS             ,  Adj. R-squared:    ,   0.162 
 Method:          ,Least Squares   ,  F-statistic:       ,   39.16 
 Date:            ,Wed, 11 Oct 2023,  Prob (F-statistic):,3.44e-57 
-Time:            ,17:51:30        ,  Log-Likelihood:    , -6708.9 
+Time:            ,18:15:29        ,  Log-Likelihood:    , -6708.9 
 No. Observations:,  1584          ,  AIC:               ,1.344e+04
 Df Residuals:    ,  1575          ,  BIC:               ,1.348e+04
 Df Model:        ,     8          ,                     ,         

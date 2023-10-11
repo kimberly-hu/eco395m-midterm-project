@@ -3,7 +3,7 @@ Dep. Variable:   ,English_Rate    ,  R-squared:         ,   0.111
 Model:           ,OLS             ,  Adj. R-squared:    ,   0.107 
 Method:          ,Least Squares   ,  F-statistic:       ,   24.65 
 Date:            ,Wed, 11 Oct 2023,  Prob (F-statistic):,5.40e-36 
-Time:            ,17:51:30        ,  Log-Likelihood:    , -6957.8 
+Time:            ,18:15:29        ,  Log-Likelihood:    , -6957.8 
 No. Observations:,  1581          ,  AIC:               ,1.393e+04
 Df Residuals:    ,  1572          ,  BIC:               ,1.398e+04
 Df Model:        ,     8          ,                     ,         
