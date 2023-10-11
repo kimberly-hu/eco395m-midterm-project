@@ -54,11 +54,10 @@ output_path = "artifacts"
 
 all_data = pd.read_csv(os.path.join(data_path, "all_data.csv"))
 summ_df = summ_stats(all_data)
-summ_df.to_csv(os.path.join(output_path,"summary_statistics.csv"), index=False)
-
+summ_df.to_csv(os.path.join(output_path, "summary_statistics.csv"), index=False)
 
 def gen_scatter_plots(df, str, path):
-    """Generate scatter plots for str and x variables"""
+    """Generate scatter plots for str variable and x variables"""
     y = df[f"{str}"]
 
     x_vars = [
@@ -126,13 +125,16 @@ def gen_scatter_plots(df, str, path):
         plt.clf()
 
 
-bio_path = os.path.join(output_path,"scatter_plots","Scatter_Biology")
-alg_path = os.path.join(output_path,"scatter_plots","Scatter_Algebra")
+bio_path = os.path.join(output_path, "scatter_plots", "Scatter_Biology")
+alg_path = os.path.join(output_path, "scatter_plots", "Scatter_Algebra")
+eng_path = os.path.join(output_path, "scatter_plots", "Scatter_English")
+hist_path = os.path.join(output_path, "scatter_plots", "Scatter_History")
 
 gen_scatter_plots(all_data, "Algebra_Rate", alg_path)
 gen_scatter_plots(all_data, "Biology_Rate", bio_path)
+gen_scatter_plots(all_data, "English_Rate", eng_path)
+gen_scatter_plots(all_data, "US_History_Rate", hist_path)
 
-"""Create corrlations for English"""
 
 corr_variables_english = all_data[
     ["English_Rate",
@@ -150,12 +152,11 @@ correlation_matrix_english = corr_variables_english.corr()
 
 plt.rc('font', size=6) 
 plt.figure(figsize=(9.5, 8.5)) 
-plt.title("English: Correlations for Exploratory Variables", fontsize=12)
+plt.title("Correlation Table for English", fontsize=12)
 sns.heatmap(correlation_matrix_english, annot=True, cmap='coolwarm')
 plt.savefig("correlation_matrix_english.png",dpi=300)
 plt.show()
 
-"""Create corrlations for Math"""
 
 corr_variables_math = all_data[
     ["Algebra_Rate",
@@ -172,12 +173,11 @@ corr_variables_math = corr_variables_math.dropna()
 correlation_matrix_math = corr_variables_math.corr()
 plt.rc('font', size=6) 
 plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Math: Correlations for Exploratory Variables", fontsize=12)
+plt.title("Correlation Table for Math", fontsize=12)
 sns.heatmap(correlation_matrix_math, annot=True, cmap='coolwarm')
 plt.savefig("correlation_matrix_math.png",dpi=300)
 plt.show()
 
-"""Create corrlations for Science"""
 
 corr_variables_sci = all_data[
     ["Biology_Rate",
@@ -194,12 +194,11 @@ corr_variables_sci = corr_variables_sci.dropna()
 correlation_matrix_sci = corr_variables_sci.corr()
 plt.rc('font', size=6) 
 plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Science: Correlations for Exploratory Variables", fontsize=12)
+plt.title("Correlation Table for Biology", fontsize=12)
 sns.heatmap(correlation_matrix_sci, annot=True, cmap='coolwarm')
 plt.savefig("correlation_matrix_sci.png",dpi=300)
 plt.show()
 
-"""Create corrlations for Social Science"""
 
 corr_variables_soc_stud = all_data[
     ["US_History_Rate",
@@ -216,7 +215,7 @@ corr_variables_soc_stud = corr_variables_soc_stud.dropna()
 correlation_matrix_soc_stud = corr_variables_soc_stud.corr()
 plt.rc('font', size=6) 
 plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Social Science: Correlations for Exploratory Variables", fontsize=12)
+plt.title("Correlation Table for US History", fontsize=12)
 sns.heatmap(correlation_matrix_soc_stud, annot=True, cmap='coolwarm')
 plt.savefig("correlation_matrix_soc_stud.png",dpi=300)
 plt.show()
