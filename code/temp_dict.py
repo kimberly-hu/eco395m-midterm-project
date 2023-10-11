@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 def request_counties_raw_data():
     """
     Send a request for the data from the SRCC website. Use the "request.get" function to extract the dictionary of different counties.
-    
+
     Return:
     raw counties data response object
     """
@@ -22,6 +22,7 @@ def request_counties_raw_data():
     counties_data = response.json()
 
     return counties_data
+
 
 def extract_list_of_counties(counties_data):
     """
@@ -48,7 +49,6 @@ def extract_list_of_counties(counties_data):
     return list_of_counties
 
 
-
 def extract_list_of_stations(list_of_counties):
     """
     For each county, add list of stations, call request_stations_raw_data() for each geoid
@@ -57,7 +57,7 @@ def extract_list_of_stations(list_of_counties):
           "geoid": "48001",
           "county_name": "Anderson County"
         },...]
-    
+
     Return:
     list of dictionaries of counties and their stations
     [{
@@ -74,7 +74,14 @@ def extract_list_of_stations(list_of_counties):
         time.sleep(1)
         geoid = county["geoid"]
         county["stations"] = request_stations_raw_data(geoid)
-        print("Got stations for " + county["county_name"] + ", " + str(i+1) + "/" + num_counties)
+        print(
+            "Got stations for "
+            + county["county_name"]
+            + ", "
+            + str(i + 1)
+            + "/"
+            + num_counties
+        )
         i += 1
 
     return list_of_counties
@@ -91,7 +98,11 @@ def request_stations_raw_data(geoid):
     """
     station_ids = []
 
-    station_url = "https://www.srcc.tamu.edu/climate_data_portal/getStnsInCountyClimdiv/?countyclimdiv=" + geoid + "&searchmethod=county&typedata=annualsum&year=2018&month=0&element=maxt&output=json"
+    station_url = (
+        "https://www.srcc.tamu.edu/climate_data_portal/getStnsInCountyClimdiv/?countyclimdiv="
+        + geoid
+        + "&searchmethod=county&typedata=annualsum&year=2018&month=0&element=maxt&output=json"
+    )
 
     response = requests.get(url=station_url)
     station_dict = response.json()
@@ -109,7 +120,7 @@ def request_stations_raw_data(geoid):
 def extract_min_max(list_of_counties):
     """
     For each county, iterate through stations until one successful min and max temp extraction
-    
+
     list_of_counties:
     [{
         "geoid": -,
@@ -182,22 +193,40 @@ def extract_min_max(list_of_counties):
                 county[max_temp_key] = []
                 county[min_temp_key] = []
                 county[station_key] = ""
-                print("Valid temps not found for county " + county["county_name"] + " in year " + year)
-        print("Finished county " + county["county_name"] + ", " + str(i+1) + "/" + num_counties)
+                print(
+                    "Valid temps not found for county "
+                    + county["county_name"]
+                    + " in year "
+                    + year
+                )
+        print(
+            "Finished county "
+            + county["county_name"]
+            + ", "
+            + str(i + 1)
+            + "/"
+            + num_counties
+        )
         i += 1
-            
+
     return list_of_counties
 
 
 def request_temps_raw_data(sid, year):
     """
-    Use "requests.get" to extract monthly min and max temps for the each station. 
+    Use "requests.get" to extract monthly min and max temps for the each station.
 
     Return:
     Dictionary that gets returned has the temps in a key "table"
     """
-    
-    temps_url = "https://www.srcc.tamu.edu/climate_data_portal/getDataInStn/?sid=" + sid + "&year=" + year + "&elem=maxt&output=json"
+
+    temps_url = (
+        "https://www.srcc.tamu.edu/climate_data_portal/getDataInStn/?sid="
+        + sid
+        + "&year="
+        + year
+        + "&elem=maxt&output=json"
+    )
 
     response = requests.get(url=temps_url)
     temps_data = response.json()
@@ -222,7 +251,7 @@ def average_min_max(temps_data):
         "max_temps_2019": [...]
     },...]
 
-    
+
     Return:
     [{
         "geoid": -,
@@ -240,11 +269,14 @@ def average_min_max(temps_data):
     """
 
     for county in temps_data:
-        max_temps = county["max_temps_2018"][7:]+county["max_temps_2019"][:6]
-        min_temps = county["min_temps_2018"][7:]+county["min_temps_2019"][:6]
-        county["avg_max_temp"] = round(sum(max_temps)/len(max_temps),2) if max_temps else ""
-        county["avg_min_temp"] = round(sum(min_temps)/len(min_temps),2) if min_temps else ""
-   
+        max_temps = county["max_temps_2018"][7:] + county["max_temps_2019"][:6]
+        min_temps = county["min_temps_2018"][7:] + county["min_temps_2019"][:6]
+        county["avg_max_temp"] = (
+            round(sum(max_temps) / len(max_temps), 2) if max_temps else ""
+        )
+        county["avg_min_temp"] = (
+            round(sum(min_temps) / len(min_temps), 2) if min_temps else ""
+        )
 
     return temps_data
 
@@ -266,19 +298,34 @@ def write_to_csv(sorted_data, path):
     Write the data to a csv with order:
     "county_name", "geoid", "station_id_2018","station_id_2019", "avg_max_temp", "avg_min_temp"
     """
-    
+
     with open(path, "w", newline="") as csvfile:
-        fieldnames = ["county_name", "geoid", "station_id_2018","station_id_2019", "avg_max_temp", "avg_min_temp"]
+        fieldnames = [
+            "county_name",
+            "geoid",
+            "station_id_2018",
+            "station_id_2019",
+            "avg_max_temp",
+            "avg_min_temp",
+        ]
         writer = csv.writer(csvfile)
         writer.writerow(fieldnames)
         for county in sorted_data:
-            writer.writerow([county["county_name"], county["geoid"], county["station_id_2018"], county["station_id_2019"], county["avg_max_temp"], county["avg_min_temp"]])
+            writer.writerow(
+                [
+                    county["county_name"],
+                    county["geoid"],
+                    county["station_id_2018"],
+                    county["station_id_2019"],
+                    county["avg_max_temp"],
+                    county["avg_min_temp"],
+                ]
+            )
 
     return
 
 
 if __name__ == "__main__":
-
     base_dir = "data/temp_data/"
     csv_path = os.path.join(base_dir, "temp_data.csv")
 
@@ -287,18 +334,18 @@ if __name__ == "__main__":
     counties_data = request_counties_raw_data()
     list_of_counties = extract_list_of_counties(counties_data)
     counties_with_stations = extract_list_of_stations(list_of_counties)
-    
+
     # save list of counties with stations to file
     stations_path = "data/temp_data/counties_with_stations.json"
     with open(stations_path, "w") as stations_file:
         json.dump(counties_with_stations, stations_file)
-    
+
     counties_with_stations = []
     with open(stations_path, encoding="utf-8") as f:
         counties_with_stations = json.loads(f.read())
 
     counties_with_stations_temps = extract_min_max(counties_with_stations)
-    
+
     # save list of counties with temps to file
     counties_with_stations_temps_path = "data/temp_data/temps.json"
     with open(counties_with_stations_temps_path, "w") as temps_file:
