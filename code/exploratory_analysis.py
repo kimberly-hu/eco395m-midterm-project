@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 from scipy.stats import linregress
+import statsmodels.api as sm
 
 def float_(df):
     """Create a list of float type variables in a data frame"""
@@ -227,3 +228,35 @@ sns.heatmap(correlation_matrix_soc_stud, annot=True, cmap='coolwarm')
 plt.savefig(f"{corr_output_path}/correlation_matrix_soc_stud.png", dpi=300)
 plt.close()
 
+
+
+# Regression analysis
+
+OLS_algebra = sm.OLS(endog=all_data['Algebra_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 6, 21, 24, 37, 38, 40]]),
+                     missing = 'drop').fit()
+OLS_biology = sm.OLS(endog=all_data['Biology_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 7, 21, 24, 37, 38, 40]]),
+                     missing = 'drop').fit()
+OLS_english = sm.OLS(endog=all_data['English_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 5, 21, 24, 37, 38, 40]]), 
+                     missing = 'drop').fit()
+OLS_history = sm.OLS(endog=all_data['US_History_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 8, 21, 24, 37, 38, 40]]),
+                     missing = 'drop').fit()
+
+results_algebra = OLS_algebra.summary()
+algebra_csv = results_algebra.as_csv()
+with open('artifacts/regressions/OLS_results_algebra.csv', 'w') as f:
+    f.write(algebra_csv)
+
+results_biology = OLS_biology.summary()
+biology_csv = results_biology.as_csv()
+with open('artifacts/regressions/OLS_results_biology.csv', 'w') as f:
+    f.write(biology_csv)
+
+results_english = OLS_english.summary()
+english_csv = results_english.as_csv()
+with open('artifacts/regressions/OLS_results_english.csv', 'w') as f:
+    f.write(english_csv)
+
+results_history = OLS_history.summary()
+history_csv = results_history.as_csv()
+with open('artifacts/regressions/OLS_results_history.csv', 'w') as f:
+    f.write(history_csv)
