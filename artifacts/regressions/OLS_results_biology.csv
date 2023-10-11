@@ -3,7 +3,7 @@ Dep. Variable:   ,Biology_Rate    ,  R-squared:         ,   0.162
 Model:           ,OLS             ,  Adj. R-squared:    ,   0.157 
 Method:          ,Least Squares   ,  F-statistic:       ,   38.10 
 Date:            ,Wed, 11 Oct 2023,  Prob (F-statistic):,1.09e-55 
-Time:            ,17:51:30        ,  Log-Likelihood:    , -6980.8 
+Time:            ,18:15:29        ,  Log-Likelihood:    , -6980.8 
 No. Observations:,  1589          ,  AIC:               ,1.398e+04
 Df Residuals:    ,  1580          ,  BIC:               ,1.403e+04
 Df Model:        ,     8          ,                     ,         
