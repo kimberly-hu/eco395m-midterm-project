@@ -6,6 +6,7 @@ import numpy as np
 from scipy.stats import linregress
 import statsmodels.api as sm
 
+
 def float_(df):
     """Create a list of float type variables in a data frame"""
 
@@ -56,6 +57,7 @@ output_path = "artifacts"
 all_data = pd.read_csv(os.path.join(data_path, "all_data.csv"))
 summ_df = summ_stats(all_data)
 summ_df.to_csv(os.path.join(output_path, "summary_statistics.csv"), index=False)
+
 
 def gen_scatter_plots(df, str, path):
     """Generate scatter plots for str variable and x variables"""
@@ -137,126 +139,149 @@ gen_scatter_plots(all_data, "English_Rate", eng_path)
 gen_scatter_plots(all_data, "US_History_Rate", hist_path)
 
 
-
 corr_output_path = os.path.join(output_path, "correlations")
 
 
 corr_variables_english = all_data[
-    ["English_Rate",
-     "Avg_Max_Temp", 
-     "Avg_Min_Temp", 
-     "Class_Size_English", 
-     "Teacher_Experience_Average", 
-     "Teacher_MS_Degree_Percent", 
-     "Median_Household_Income",
-     "Gini_Index",
-     "Poverty_Rate"]]
+    [
+        "English_Rate",
+        "Avg_Max_Temp",
+        "Avg_Min_Temp",
+        "Class_Size_English",
+        "Teacher_Experience_Average",
+        "Teacher_MS_Degree_Percent",
+        "Median_Household_Income",
+        "Gini_Index",
+        "Poverty_Rate",
+    ]
+]
 
 corr_variables_english = corr_variables_english.dropna()
 correlation_matrix_english = corr_variables_english.corr()
 
-plt.rc('font', size=6)
+plt.rc("font", size=6)
 plt.figure(figsize=(9.5, 8.5))
 plt.title("Correlation Table: English", fontsize=12)
-sns.heatmap(correlation_matrix_english, annot=True, cmap='coolwarm')
+sns.heatmap(correlation_matrix_english, annot=True, cmap="coolwarm")
 plt.savefig(f"{corr_output_path}/correlation_matrix_english.png", dpi=300)
 plt.close()
 
 
 corr_variables_math = all_data[
-    ["Algebra_Rate",
-     "Avg_Max_Temp", 
-     "Avg_Min_Temp", 
-     "Class_Size_Math", 
-     "Teacher_Experience_Average", 
-     "Teacher_MS_Degree_Percent", 
-     "Median_Household_Income",
-     "Gini_Index",
-     "Poverty_Rate"]]
+    [
+        "Algebra_Rate",
+        "Avg_Max_Temp",
+        "Avg_Min_Temp",
+        "Class_Size_Math",
+        "Teacher_Experience_Average",
+        "Teacher_MS_Degree_Percent",
+        "Median_Household_Income",
+        "Gini_Index",
+        "Poverty_Rate",
+    ]
+]
 
 corr_variables_math = corr_variables_math.dropna()
 correlation_matrix_math = corr_variables_math.corr()
 
-plt.rc('font', size=6)
+plt.rc("font", size=6)
 plt.figure(figsize=(9.5, 8.5))
 plt.title("Correlation Table: Math", fontsize=12)
-sns.heatmap(correlation_matrix_math, annot=True, cmap='coolwarm')
+sns.heatmap(correlation_matrix_math, annot=True, cmap="coolwarm")
 plt.savefig(f"{corr_output_path}/correlation_matrix_math.png", dpi=300)
 plt.close()
 
 
 corr_variables_sci = all_data[
-    ["Biology_Rate",
-     "Avg_Max_Temp", 
-     "Avg_Min_Temp", 
-     "Class_Size_Sci", 
-     "Teacher_Experience_Average", 
-     "Teacher_MS_Degree_Percent", 
-     "Median_Household_Income",
-     "Gini_Index",
-     "Poverty_Rate"]]
+    [
+        "Biology_Rate",
+        "Avg_Max_Temp",
+        "Avg_Min_Temp",
+        "Class_Size_Sci",
+        "Teacher_Experience_Average",
+        "Teacher_MS_Degree_Percent",
+        "Median_Household_Income",
+        "Gini_Index",
+        "Poverty_Rate",
+    ]
+]
 
 corr_variables_sci = corr_variables_sci.dropna()
 correlation_matrix_sci = corr_variables_sci.corr()
 
-plt.rc('font', size=6) 
-plt.figure(figsize=(9.5, 8.5)) 
+plt.rc("font", size=6)
+plt.figure(figsize=(9.5, 8.5))
 plt.title("Correlation Table: Biology", fontsize=12)
-sns.heatmap(correlation_matrix_sci, annot=True, cmap='coolwarm')
+sns.heatmap(correlation_matrix_sci, annot=True, cmap="coolwarm")
 plt.savefig(f"{corr_output_path}/correlation_matrix_sci.png", dpi=300)
 plt.close()
 
 
 corr_variables_soc_stud = all_data[
-    ["US_History_Rate",
-     "Avg_Max_Temp", 
-     "Avg_Min_Temp", 
-     "Class_Size_Soc_Stud", 
-     "Teacher_Experience_Average", 
-     "Teacher_MS_Degree_Percent", 
-     "Median_Household_Income",
-     "Gini_Index",
-     "Poverty_Rate"]]
+    [
+        "US_History_Rate",
+        "Avg_Max_Temp",
+        "Avg_Min_Temp",
+        "Class_Size_Soc_Stud",
+        "Teacher_Experience_Average",
+        "Teacher_MS_Degree_Percent",
+        "Median_Household_Income",
+        "Gini_Index",
+        "Poverty_Rate",
+    ]
+]
 
 corr_variables_soc_stud = corr_variables_soc_stud.dropna()
 correlation_matrix_soc_stud = corr_variables_soc_stud.corr()
 
-plt.rc('font', size=6) 
-plt.figure(figsize=(9.5, 8.5)) 
+plt.rc("font", size=6)
+plt.figure(figsize=(9.5, 8.5))
 plt.title("Correlation Table: US History", fontsize=12)
-sns.heatmap(correlation_matrix_soc_stud, annot=True, cmap='coolwarm')
+sns.heatmap(correlation_matrix_soc_stud, annot=True, cmap="coolwarm")
 plt.savefig(f"{corr_output_path}/correlation_matrix_soc_stud.png", dpi=300)
 plt.close()
 
 
+OLS_algebra = sm.OLS(
+    endog=all_data["Algebra_Rate"],
+    exog=sm.add_constant(all_data.iloc[:, [41, 42, 6, 21, 24, 37, 38, 40]]),
+    missing="drop",
+).fit()
 
-# Regression analysis
+OLS_biology = sm.OLS(
+    endog=all_data["Biology_Rate"],
+    exog=sm.add_constant(all_data.iloc[:, [41, 42, 7, 21, 24, 37, 38, 40]]),
+    missing="drop",
+).fit()
 
-OLS_algebra = sm.OLS(endog=all_data['Algebra_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 6, 21, 24, 37, 38, 40]]),
-                     missing = 'drop').fit()
-OLS_biology = sm.OLS(endog=all_data['Biology_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 7, 21, 24, 37, 38, 40]]),
-                     missing = 'drop').fit()
-OLS_english = sm.OLS(endog=all_data['English_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 5, 21, 24, 37, 38, 40]]), 
-                     missing = 'drop').fit()
-OLS_history = sm.OLS(endog=all_data['US_History_Rate'], exog=sm.add_constant(all_data.iloc[:, [41, 42, 8, 21, 24, 37, 38, 40]]),
-                     missing = 'drop').fit()
+OLS_english = sm.OLS(
+    endog=all_data["English_Rate"],
+    exog=sm.add_constant(all_data.iloc[:, [41, 42, 5, 21, 24, 37, 38, 40]]),
+    missing="drop",
+).fit()
+
+OLS_history = sm.OLS(
+    endog=all_data["US_History_Rate"],
+    exog=sm.add_constant(all_data.iloc[:, [41, 42, 8, 21, 24, 37, 38, 40]]),
+    missing="drop",
+).fit()
 
 results_algebra = OLS_algebra.summary()
 algebra_csv = results_algebra.as_csv()
-with open('artifacts/regressions/OLS_results_algebra.csv', 'w') as f:
+with open("artifacts/regressions/OLS_results_algebra.csv", "w") as f:
     f.write(algebra_csv)
 
 results_biology = OLS_biology.summary()
 biology_csv = results_biology.as_csv()
-with open('artifacts/regressions/OLS_results_biology.csv', 'w') as f:
+with open("artifacts/regressions/OLS_results_biology.csv", "w") as f:
     f.write(biology_csv)
 
 results_english = OLS_english.summary()
 english_csv = results_english.as_csv()
-with open('artifacts/regressions/OLS_results_english.csv', 'w') as f:
+with open("artifacts/regressions/OLS_results_english.csv", "w") as f:
     f.write(english_csv)
 
 results_history = OLS_history.summary()
 history_csv = results_history.as_csv()
-with open('artifacts/regressions/OLS_results_history.csv', 'w') as f:
+with open("artifacts/regressions/OLS_results_history.csv", "w") as f:
     f.write(history_csv)
