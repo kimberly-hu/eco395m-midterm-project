@@ -49,7 +49,7 @@ def summ_stats(df):
     return statistics_df
 
 
-data_path = "Data"
+data_path = "data"
 output_path = "artifacts"
 
 
@@ -132,7 +132,6 @@ alg_path = os.path.join(output_path,"scatter_plots","Scatter_Algebra")
 
 gen_scatter_plots(all_data, "Algebra_Rate", alg_path)
 gen_scatter_plots(all_data, "Biology_Rate", bio_path)
-
 
 """Create corrlations for English"""
 
