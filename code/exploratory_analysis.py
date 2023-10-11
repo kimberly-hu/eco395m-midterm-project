@@ -136,6 +136,10 @@ gen_scatter_plots(all_data, "English_Rate", eng_path)
 gen_scatter_plots(all_data, "US_History_Rate", hist_path)
 
 
+
+corr_output_path = os.path.join(output_path, "correlations")
+
+
 corr_variables_english = all_data[
     ["English_Rate",
      "Avg_Max_Temp", 
@@ -150,12 +154,12 @@ corr_variables_english = all_data[
 corr_variables_english = corr_variables_english.dropna()
 correlation_matrix_english = corr_variables_english.corr()
 
-plt.rc('font', size=6) 
-plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Correlation Table for English", fontsize=12)
+plt.rc('font', size=6)
+plt.figure(figsize=(9.5, 8.5))
+plt.title("Correlation Table: English", fontsize=12)
 sns.heatmap(correlation_matrix_english, annot=True, cmap='coolwarm')
-plt.savefig("correlation_matrix_english.png",dpi=300)
-plt.show()
+plt.savefig(f"{corr_output_path}/correlation_matrix_english.png", dpi=300)
+plt.close()
 
 
 corr_variables_math = all_data[
@@ -171,12 +175,13 @@ corr_variables_math = all_data[
 
 corr_variables_math = corr_variables_math.dropna()
 correlation_matrix_math = corr_variables_math.corr()
-plt.rc('font', size=6) 
-plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Correlation Table for Math", fontsize=12)
+
+plt.rc('font', size=6)
+plt.figure(figsize=(9.5, 8.5))
+plt.title("Correlation Table: Math", fontsize=12)
 sns.heatmap(correlation_matrix_math, annot=True, cmap='coolwarm')
-plt.savefig("correlation_matrix_math.png",dpi=300)
-plt.show()
+plt.savefig(f"{corr_output_path}/correlation_matrix_math.png", dpi=300)
+plt.close()
 
 
 corr_variables_sci = all_data[
@@ -192,12 +197,13 @@ corr_variables_sci = all_data[
 
 corr_variables_sci = corr_variables_sci.dropna()
 correlation_matrix_sci = corr_variables_sci.corr()
+
 plt.rc('font', size=6) 
 plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Correlation Table for Biology", fontsize=12)
+plt.title("Correlation Table: Biology", fontsize=12)
 sns.heatmap(correlation_matrix_sci, annot=True, cmap='coolwarm')
-plt.savefig("correlation_matrix_sci.png",dpi=300)
-plt.show()
+plt.savefig(f"{corr_output_path}/correlation_matrix_sci.png", dpi=300)
+plt.close()
 
 
 corr_variables_soc_stud = all_data[
@@ -213,10 +219,11 @@ corr_variables_soc_stud = all_data[
 
 corr_variables_soc_stud = corr_variables_soc_stud.dropna()
 correlation_matrix_soc_stud = corr_variables_soc_stud.corr()
+
 plt.rc('font', size=6) 
 plt.figure(figsize=(9.5, 8.5)) 
-plt.title("Correlation Table for US History", fontsize=12)
+plt.title("Correlation Table: US History", fontsize=12)
 sns.heatmap(correlation_matrix_soc_stud, annot=True, cmap='coolwarm')
-plt.savefig("correlation_matrix_soc_stud.png",dpi=300)
-plt.show()
+plt.savefig(f"{corr_output_path}/correlation_matrix_soc_stud.png", dpi=300)
+plt.close()
 
