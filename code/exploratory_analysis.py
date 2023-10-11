@@ -2,6 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+import numpy as np
 from scipy.stats import linregress
 
 
@@ -48,14 +49,13 @@ def summ_stats(df):
     return statistics_df
 
 
-data_path = "data"
+data_path = "Data"
 output_path = "artifacts"
 
 
 all_data = pd.read_csv(os.path.join(data_path, "all_data.csv"))
 summ_df = summ_stats(all_data)
 summ_df.to_csv(os.path.join(output_path,"summary_statistics.csv"), index=False)
-
 
 
 def gen_scatter_plots(df, str, path):
@@ -132,3 +132,94 @@ alg_path = os.path.join(output_path,"scatter_plots","Scatter_Algebra")
 
 gen_scatter_plots(all_data, "Algebra_Rate", alg_path)
 gen_scatter_plots(all_data, "Biology_Rate", bio_path)
+
+
+"""Create corrlations for English"""
+
+corr_variables_english = all_data[
+    ["English_Rate",
+     "Avg_Max_Temp", 
+     "Avg_Min_Temp", 
+     "Class_Size_English", 
+     "Teacher_Experience_Average", 
+     "Teacher_MS_Degree_Percent", 
+     "Median_Household_Income",
+     "Gini_Index",
+     "Poverty_Rate"]]
+
+corr_variables_english = corr_variables_english.dropna()
+correlation_matrix_english = corr_variables_english.corr()
+
+plt.rc('font', size=6) 
+plt.figure(figsize=(9.5, 8.5)) 
+plt.title("English: Correlations for Exploratory Variables", fontsize=12)
+sns.heatmap(correlation_matrix_english, annot=True, cmap='coolwarm')
+plt.savefig("correlation_matrix_english.png",dpi=300)
+plt.show()
+
+"""Create corrlations for Math"""
+
+corr_variables_math = all_data[
+    ["Algebra_Rate",
+     "Avg_Max_Temp", 
+     "Avg_Min_Temp", 
+     "Class_Size_Math", 
+     "Teacher_Experience_Average", 
+     "Teacher_MS_Degree_Percent", 
+     "Median_Household_Income",
+     "Gini_Index",
+     "Poverty_Rate"]]
+
+corr_variables_math = corr_variables_math.dropna()
+correlation_matrix_math = corr_variables_math.corr()
+plt.rc('font', size=6) 
+plt.figure(figsize=(9.5, 8.5)) 
+plt.title("Math: Correlations for Exploratory Variables", fontsize=12)
+sns.heatmap(correlation_matrix_math, annot=True, cmap='coolwarm')
+plt.savefig("correlation_matrix_math.png",dpi=300)
+plt.show()
+
+"""Create corrlations for Science"""
+
+corr_variables_sci = all_data[
+    ["Biology_Rate",
+     "Avg_Max_Temp", 
+     "Avg_Min_Temp", 
+     "Class_Size_Sci", 
+     "Teacher_Experience_Average", 
+     "Teacher_MS_Degree_Percent", 
+     "Median_Household_Income",
+     "Gini_Index",
+     "Poverty_Rate"]]
+
+corr_variables_sci = corr_variables_sci.dropna()
+correlation_matrix_sci = corr_variables_sci.corr()
+plt.rc('font', size=6) 
+plt.figure(figsize=(9.5, 8.5)) 
+plt.title("Science: Correlations for Exploratory Variables", fontsize=12)
+sns.heatmap(correlation_matrix_sci, annot=True, cmap='coolwarm')
+plt.savefig("correlation_matrix_sci.png",dpi=300)
+plt.show()
+
+"""Create corrlations for Social Science"""
+
+corr_variables_soc_stud = all_data[
+    ["US_History_Rate",
+     "Avg_Max_Temp", 
+     "Avg_Min_Temp", 
+     "Class_Size_Soc_Stud", 
+     "Teacher_Experience_Average", 
+     "Teacher_MS_Degree_Percent", 
+     "Median_Household_Income",
+     "Gini_Index",
+     "Poverty_Rate"]]
+
+corr_variables_soc_stud = corr_variables_soc_stud.dropna()
+correlation_matrix_soc_stud = corr_variables_soc_stud.corr()
+plt.rc('font', size=6) 
+plt.figure(figsize=(9.5, 8.5)) 
+plt.title("Social Science: Correlations for Exploratory Variables", fontsize=12)
+sns.heatmap(correlation_matrix_soc_stud, annot=True, cmap='coolwarm')
+plt.savefig("correlation_matrix_soc_stud.png",dpi=300)
+plt.show()
+
