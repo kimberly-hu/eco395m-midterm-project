@@ -1,0 +1,29 @@
+                      OLS Regression Results                      
+Dep. Variable:   ,US_History_Rate ,  R-squared:         ,   0.166 
+Model:           ,OLS             ,  Adj. R-squared:    ,   0.162 
+Method:          ,Least Squares   ,  F-statistic:       ,   39.16 
+Date:            ,Wed, 11 Oct 2023,  Prob (F-statistic):,3.44e-57 
+Time:            ,16:33:06        ,  Log-Likelihood:    , -6708.9 
+No. Observations:,  1584          ,  AIC:               ,1.344e+04
+Df Residuals:    ,  1575          ,  BIC:               ,1.348e+04
+Df Model:        ,     8          ,                     ,         
+Covariance Type: ,nonrobust       ,                     ,         
+                          ,   coef   , std err ,    t    ,P>|t| ,  [0.025 ,  0.975] 
+const                     ,   29.6145,   17.831,    1.661, 0.097,   -5.360,   64.589
+Avg_Max_Temp              ,    0.3921,    0.206,    1.908, 0.057,   -0.011,    0.795
+Avg_Min_Temp              ,   -0.2606,    0.114,   -2.293, 0.022,   -0.484,   -0.038
+Class_Size_Soc_Stud       ,    0.9804,    0.075,   12.992, 0.000,    0.832,    1.128
+Teacher_Experience_Average,    0.4978,    0.127,    3.918, 0.000,    0.249,    0.747
+Teacher_MS_Degree_Percent ,    0.2055,    0.036,    5.733, 0.000,    0.135,    0.276
+Median_Household_Income   , 2.919e-05, 5.92e-05,    0.493, 0.622,-8.69e-05,    0.000
+Gini_Index                ,   -9.6730,   17.933,   -0.539, 0.590,  -44.847,   25.501
+Poverty_Rate              ,   -0.3078,    0.166,   -1.852, 0.064,   -0.634,    0.018
+Omnibus:      ,104.679,  Durbin-Watson:     ,   1.660
+Prob(Omnibus):, 0.000 ,  Jarque-Bera (JB):  , 130.743
+Skew:         ,-0.613 ,  Prob(JB):          ,4.07e-29
+Kurtosis:     , 3.691 ,  Cond. No.          ,3.09e+06
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 3.09e+06. This might indicate that there are
+strong multicollinearity or other numerical problems.
