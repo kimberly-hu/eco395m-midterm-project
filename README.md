@@ -152,7 +152,7 @@ Finally, we've constructed our database and conducted regression analysis using 
 
 2. Analysis
 
-The dataset contains observational data, so we should be careful when making conclusions about causation between the dependent and independent variables in the regression analysis. The results may be affected by various problems that could create bias, even though we included several control variables in the regression. It's possible that we left out important confounding factors that could affect our model and cause our results to be biased. Some of the potential missing variables that could affect the results include institutional factors, school resources, additional family-related factors, and teaching practices. Accessing quasi-experimental or experimental data in this field comes at a high cost. However, incorporating the variables mentioned earlier can lead to bias reduction and more accurate causal identification.
+The dataset contains observational data, so we should be careful when making conclusions about causation between the dependent and independent variables in the regression analysis. It's possible that we left out important confounding factors that could affect our model and cause our results to be biased. Some of the potential missing variables that could affect the results include institutional factors, school resources, additional family-related factors, and teaching practices. Accessing quasi-experimental or experimental data in this field comes at a high cost. However, incorporating the variables mentioned earlier can lead to bias reduction and more accurate causal identification.
 
 # Conclusion
 
