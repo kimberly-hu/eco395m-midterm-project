@@ -12,7 +12,7 @@ Educational achievement in high schools, exemplified by the State of Texas Asses
 
 1. Education Data
 
-Education data is retrieved from Texas Education Agency (TEA). All data is from 2018-2019 to avoid the impact of COVID-19 and at campus-level. 
+Education data is retrieved from [Texas Education Agency](https://tea.texas.gov/) (TEA). All data is from 2018-2019 to avoid the impact of COVID-19 and at campus-level. 
 
 We collected data on campus information, student performance information, class size, and teachers’ information. Campus information includes the details of each campus, such as name and code. Class sizes are the average class size for each type of subject (English, Math, Science, Social Studies). Teachers’ information include teachers’ teaching experience counts and percentages by categories (beginning, 1-5 years, 6-10 years, 11-20 years, > 20 years), teachers’ highest degree counts and percentages by categories (no degree, BA, MS, PhD),  average teaching experience, and average tenure. 
 
@@ -20,7 +20,7 @@ Student academic performance data is based on STAAR: The State of Texas Assessme
 
 2. Temperature Data
 
-All temperature data is collected from the Southern Regional Climate Center (SRCC). The average monthly temperatures (Fahrenheit) were pulled from August 1, 2018, to June 1, 2019, to account for the temperatures during an average school year. 
+All temperature data is collected from the [Southern Regional Climate Center](https://www.srcc.tamu.edu/climate_data_portal/?product=monthly_climate_data_summaries) (SRCC). The average monthly temperatures (Fahrenheit) were pulled from August 1, 2018, to June 1, 2019, to account for the temperatures during an average school year. 
 
 The data provided for temperatures are:
 County name
@@ -31,8 +31,7 @@ County name
 
 3. Income, Inequality, and Poverty Data
 
-Census related data were collected through the Census Bureau API, specifically drawing from the American Community Survey 5-Year data estimates provided by the U.S. Census Bureau. The initial step involved a review of the API documentation to gain insight into the data retrieval processes, complemented by practical examples. A comprehensive list of variables accessible via the API was consulted to determine the pertinent data components. We retrieved data at the county level in Texas, including median household income, median family income, the Gini index, population with the ratio of income to poverty level below 1, and total population. Requests were designed to access the 2019 dataset for these variables.
-
+Census related data were collected through the [Census Bureau API](https://api.census.gov/data/2019/acs/acs5), specifically drawing from the [American Community Survey 5-Year](https://www.census.gov/programs-surveys/acs/about.html) data estimates provided by the U.S. Census Bureau. We retrieved data at the county level in Texas, including median household income, median family income, the Gini index, population with the ratio of income to poverty level below 1, and total population. 
 
 # Running the Code
 
@@ -49,11 +48,11 @@ analysis.py reads the merged dataset and produces our results, including summary
 
 # Methodology
 
-1. Data Collection and Merge
+1. Data Collection
 
 1.1 Education Data
 
-Education data can be downloaded from this link. We selected “campus download” under “all records”, and downloaded the following datasets: “Campus Reference”, “Staff information”, “STAAR Approaches Grade Level, Meets Grade Level, and Masters Grade Level (All Grades) 2019”. Additionally, we obtained “ESC Regions Information” from TEA Public Open Data Site. 
+Education data were downloaded from [this link](https://rptsvr1.tea.texas.gov/perfreport/tapr/2019/xplore/DownloadSelData.html). We selected “campus download” under “all records”, and downloaded the following datasets: “Campus Reference”, “Staff information”, “STAAR Approaches Grade Level, Meets Grade Level, and Masters Grade Level (All Grades) 2019”. Additionally, we obtained “ESC Regions Information” from [TEA Public Open Data Site](https://schoolsdata2-tea-texas.opendata.arcgis.com/datasets/12142ff8beec4a1797334c9c41ba7b18_0/explore?location=30.803339%2C-99.879635%2C6.00&showTable=true). 
 
 Campus reference data was downloaded with the following options:
 - Campus Name
@@ -87,11 +86,11 @@ Once the data was pulled from the SRCC website, the average maximum and minimum 
 
 1.3 Census Data
 
-Data was extracted using the Census Bureau API to pull income, inequality and variables needed to calculate poverty level through get requests. We also calculated the poverty rate. All these variables. All these variables correspond to 2019 at a county level. 
+Data was extracted using the Census Bureau API to pull income, inequality and variables needed to calculate poverty level through get requests. The initial step involved a review of the API documentation to gain insight into the data retrieval processes, complemented by practical examples. A [comprehensive list of variables](https://api.census.gov/data/2019/acs/acs5/variables.html) accessible via the API was consulted to determine the pertinent data components. Requests were designed to access the 2019 dataset for these variables. We also calculated the poverty rate. All these variables correspond to 2019 at a county level. 
 
 2. Exploratory Analysis
 
-We employ Python to analyze the relationship between each variable and student academic performance across various courses, and export scatter graphs stored at scatter_plots under artifacts. The findings indicate that the following 8 exploratory variables significantly influence the dependent variable, which is student academic performance.
+We employed Python to analyze the relationship between each variable and student academic performance across various courses, and exported scatter plots stored at scatter_plots under artifacts. The findings indicated that the following 8 exploratory variables significantly influence the dependent variable, which is student academic performance.
 
 Exploratory Variables: 
 - "Avg_Max_Temp",
@@ -108,9 +107,9 @@ Dependent Variables:
 
 3. Correlation and Linear Regression
 
-We use Python to run matrix graphs that display correlations among 9 variables (See graphs in Results). The objective of presenting these correlations is to identify any relationships between any two variables that might introduce bias into the regression results.
+We used Python to run matrix graphs that display correlations among 9 variables (see graphs in the Results section). The objective of presenting these correlations is to identify any relationships between any two variables that might introduce bias into the regression results.
 
-To investigate the influence of class size and average teaching experience on student academic performance in subjects such as English, Biology, US History and Math, we conducted Ordinary Least Squares (OLS) regression analysis. These academic performance scores served as the dependent variables in our study. The key variables of interest were class size and average teaching experience. Additionally we also included other previously mentioned explanatory variables as control variables. It’s worth noting that we excluded data points with missing values in the OLS estimation.
+To investigate the influence of class size and average teaching experience on student academic performance in subjects such as English, Biology, US History and Math, we conducted Ordinary Least Squares (OLS) regression analysis. The academic performance scores served as the dependent variables in our study. The key variables of interest were class size and average teaching experience. Additionally we also included other previously mentioned explanatory variables as control variables. It’s worth noting that we excluded data points with missing values in the OLS estimation.
 
 # Results
 
@@ -142,7 +141,8 @@ With respect to temperature variables, we observed that average minimum temperat
 
 
 # Limitations and Extensions
-Data:
+
+1. Data
 
 The dataset is vulnerable to aggregation bias as some variables are collected at a county level, while education data is specific to individual school campuses. The issue arises from assuming that county-level data can adequately represent each campus, whereas in reality, substantial disparities may exist among students' families at different campuses within the same county. Concerning this issue, improving our dataset involves gathering data at the school district or campus level for temperature and census information, which can subsequently enhance the accuracy of causal effect assessments.
 
@@ -150,13 +150,13 @@ In addition, the presence of outliers in the academic performance variable was i
 
 Finally, we've constructed our database and conducted regression analysis using the overall percentage of students meeting the grade level. It's important to note that the causal effects of our explanatory variables may differ if we were to segregate our academic data by demographics, such as sex, race, or economically disadvantaged students. While this data is accessible, we have chosen not to include it in our analysis. Enhancing the database and analysis involves the incorporation of disaggregated academic performance variables.
 
-Analysis:
+2. Analysis
 
 The dataset contains observational data, so we should be careful when making conclusions about causation between the dependent and independent variables in the regression analysis. The results may be affected by various problems that could create bias, even though we included several control variables in the regression. It's possible that we left out important confounding factors that could affect our model and cause our results to be biased. Some of the potential missing variables that could affect the results include institutional factors, school resources, additional family-related factors, and teaching practices. Accessing quasi-experimental or experimental data in this field comes at a high cost. However, incorporating the variables mentioned earlier can lead to bias reduction and more accurate causal identification.
 
 # Conclusion
 
-In this project, we explored the impact of teacher quality, temperature, and census variables on student academic performance. We sourced our data from three distinct providers: Texas Education Agency (TEA), Southern Regional Climate Center (SRCC) and  American Community Survey 5-Year. We used Python to script the extraction of data from these sources and integrated it into our dataset. Following that, scatter plots were developed to investigate the relationship between each variable and student academic performance across various courses, and then we picked up 8 most relevant variables to do regression analysis. From this analysis, we identified 8 highly relevant variables for regression analysis. Our findings reveal that, across all four subjects (English, US History, Biology, and Math), class size, teacher experience, and teacher degree have a significant positive influence on high student academic performance. Furthermore, we observed that average minimum temperature slightly affects students' US history grades negatively, and the poverty rate negatively impacts students' performance in Biology and English. With respect to database limitations, first, our data collection was conducted at various levels, with education data obtained at the campus level and other data collected at the county level. We made the assumption that county-level data can sufficiently represent each individual campus. Additionally, we did not perform outlier removal in the academic performance data. It's worth noting that there are inherent limitations in our dataset, and we didn't thoroughly examine the causal effects of our explanatory variables. 
+In this project, we explored the impact of teacher quality, temperature, and census variables on student academic performance. We sourced our data from three distinct providers: Texas Education Agency (TEA), Southern Regional Climate Center (SRCC) and  American Community Survey 5-Year. We used Python scripts to extract of data from these sources and integrated them into one comprehensive dataset. Following that, scatter plots were developed to investigate the relationship between each variable and student academic performance across various courses, and then we picked up 8 most relevant variables to do regression analysis. From this analysis, we identified 8 highly relevant variables for regression analysis. Our findings reveal that, across all four subjects (English, US History, Biology, and Math), class size, teacher experience, and teacher degree have a significant positive influence on high student academic performance. Furthermore, we observed that average minimum temperature slightly affects students' US history grades negatively, and the poverty rate negatively impacts students' performance in Biology and English. With respect to database limitations, first, our data collection was conducted at various levels, with education data obtained at the campus level and other data collected at the county level. We made the assumption that county-level data can sufficiently represent each individual campus. Additionally, we did not perform outlier removal in the academic performance data. It's worth noting that there are inherent limitations in our dataset, and we didn't thoroughly examine the causal effects of our explanatory variables. 
 
 
 
