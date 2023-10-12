@@ -43,7 +43,7 @@ temp_dict.py utilizes the API from SRCC to extract a list of counties in Texas, 
 
 all_data.py first calls on education.py to merge datasets related to education based on campus, then merges the education data with census data and temperature data based on county. The datasets are cleaned and manipulated using pandas. Observations missing student performance data are removed from our dataset for analysis. 
 
-analysis.py reads the merged dataset and produces our results, including summary statistics of all variables, scatter plots between student performance and each variable, correlation tables on selected independent variables, and linear regression results. All results are stored in the “artifacts” folder. 
+analysis.py reads the merged dataset and produces our results, including summary statistics of all variables, scatter plots between student performance and each variable, correlation tables on selected independent variables, and linear regression results. All results are stored in the `artifacts` folder. 
 
 
 # Methodology
@@ -72,7 +72,7 @@ Student performance data was downloaded with the following options:
 - EOC Biology, Meets Grade Level, 2019
 - EOC US History, Meets Grade Level, 2019
 
-All datasets were saved as CSV files in the “education_data” folder under “data”: 
+All datasets were saved as CSV files in the `education_data` folder under `data`: 
 - “Campus Reference”: campus_reference_data.csv
 - “Staff information”: staff_data.csv
 - “STAAR Approaches Grade Level, Meets Grade Level, and Masters Grade Level (All Grades) 2019”: academic_data.csv
@@ -90,7 +90,7 @@ Data was extracted using the Census Bureau API to pull income, inequality and va
 
 2. Exploratory Analysis
 
-We employed Python to analyze the relationship between each variable and student academic performance across various courses, and exported scatter plots stored at scatter_plots under artifacts. The findings indicated that the following 8 exploratory variables significantly influence the dependent variable, which is student academic performance.
+We employed Python to analyze the relationship between each variable and student academic performance across various courses, and exported scatter plots stored at "scatter_plots" under artifacts. The findings indicated that the following 8 exploratory variables significantly influence the dependent variable, which is student academic performance.
 
 Exploratory Variables: 
 - "Avg_Max_Temp",
@@ -107,21 +107,21 @@ Dependent Variables:
 
 3. Correlation and Linear Regression
 
-We used Python to run matrix graphs that display correlations among 9 variables (see graphs in the Results section). The objective of presenting these correlations is to identify any relationships between any two variables that might introduce bias into the regression results.
+We used Python to run matrix graphs that display correlations among the above mentioned 9 variables (see graphs in the Results section). The objective of presenting these correlations is to identify relationships between any two variables that might introduce bias into the regression results.
 
-To investigate the influence of class size and average teaching experience on student academic performance in subjects such as English, Biology, US History and Math, we conducted Ordinary Least Squares (OLS) regression analysis. The academic performance scores served as the dependent variables in our study. The key variables of interest were class size and average teaching experience. Additionally we also included other previously mentioned explanatory variables as control variables. It’s worth noting that we excluded data points with missing values in the OLS estimation.
+To investigate the influence of the exploratory variables on student academic performance in different subjects, we conducted Ordinary Least Squares (OLS) regression analysis for each subject separately. The academic performance scores for each subject were served as the dependent variables in our study. It’s worth noting that we excluded data points with missing values in the OLS estimation.
 
 # Results
 
-We did not find any of the variables used as control variables, including average maximum temperature, average minimum temperature, median household income, GINI index, or poverty rate to be significant at a level of 1% or less. Therefore, they were used as control variables in our regression.
-
-The results of the Ordinary Least Squares (OLS) estimation reveal significant effects for both class size and the average teacher experience on student academic performance in all four subjects (with a P-value less than 0.01). Also, the impact of class size is more clear cut in the field of biology. Specifically, adding one additional student to the class leads to a 0.1928 increase in the algebra rate, a substantial 1.3372 increase in biology, a notable 1.0083  increase in English, and a solid 0.9804 increase in US history.
+The results of the Ordinary Least Squares (OLS) estimation reveal significant effects for both class size and the average teacher experience on student academic performance in all four subjects (with a P-value less than 0.01). Also, the impact of class size is more clear cut in the field of biology. Specifically, adding one additional student to the class leads to a 0.1928 increase in the algebra rate, a substantial 1.3372 increase in biology, a notable 1.0083 increase in English, and a solid 0.9804 increase in US history.
 
 Furthermore, the effect of teaching experience is most prominent in biology, although it also exhibits a notable influence on English. The analysis indicates that a one-year increase in the average teaching experience results in a 0.6153 percentage point rise in the algebra rate, a 0.6654 increase in biology, a 0.6657 increase in English and a 0.4978 increase in US history.
 
 We also observed a significant impact of the percentage of teachers with master’s degrees on academic performance in all subjects. The most substantial effect was seen in English, a 1 percentage point increase in the percentage of teachers with master’s degrees resulted in a significant 0.2471 increase in academic performance rate. 
 
 With respect to temperature variables, we observed that average minimum temperature slightly affects students' US history grades negatively; specifically, for every 1-degree increase in average minimum temperature, there was a 0.26-point decrease in US history grades. Lastly, when examining the census variables, we discovered that the poverty rate has a negative impact on students' performance in the subjects of Biology and English.
+
+We did not find any significant effect on student performance for average maximum temperature, average minimum temperature, median household income, GINI index, or poverty rate at a level of 1%. 
 
 ![correlation_matrix_english](https://github.com/kimberly-hu/eco395m-midterm-project/assets/143051809/303592e6-c1e7-4d25-9e5a-1113f1db1be7)
 
@@ -156,7 +156,9 @@ The dataset contains observational data, so we should be careful when making con
 
 # Conclusion
 
-In this project, we explored the impact of teacher quality, temperature, and census variables on student academic performance. We sourced our data from three distinct providers: Texas Education Agency (TEA), Southern Regional Climate Center (SRCC) and  American Community Survey 5-Year. We used Python scripts to extract of data from these sources and integrated them into one comprehensive dataset. Following that, scatter plots were developed to investigate the relationship between each variable and student academic performance across various courses, and then we picked up 8 most relevant variables to do regression analysis. From this analysis, we identified 8 highly relevant variables for regression analysis. Our findings reveal that, across all four subjects (English, US History, Biology, and Math), class size, teacher experience, and teacher degree have a significant positive influence on high student academic performance. Furthermore, we observed that average minimum temperature slightly affects students' US history grades negatively, and the poverty rate negatively impacts students' performance in Biology and English. With respect to database limitations, first, our data collection was conducted at various levels, with education data obtained at the campus level and other data collected at the county level. We made the assumption that county-level data can sufficiently represent each individual campus. Additionally, we did not perform outlier removal in the academic performance data. It's worth noting that there are inherent limitations in our dataset, and we didn't thoroughly examine the causal effects of our explanatory variables. 
+In this project, we explored the impact of teacher quality, temperature, and census variables on student academic performance. We sourced our data from three distinct providers: Texas Education Agency (TEA), Southern Regional Climate Center (SRCC) and  American Community Survey 5-Year. We used Python scripts to extract of data from these sources and integrated them into one comprehensive dataset. Following that, scatter plots were developed to investigate the relationship between each variable and student academic performance across various courses, and then we picked up 8 most relevant variables to do regression analysis. 
+
+Our findings reveal that, across all four subjects (English, US History, Biology, and Math), class size, teacher experience, and teacher degree have a significant positive influence on high student academic performance. Furthermore, we observed that average minimum temperature slightly affects students' US history grades negatively, and the poverty rate negatively impacts students' performance in Biology and English. Several limitations exist in our study. First, our data collection was conducted at various levels, with education data obtained at the campus level and other data collected at the county level. We made the assumption that county-level data can sufficiently represent each individual campus, which might introduce a bias. Second, we did not perform outlier removal in the academic performance data. Finally, there are inherent limitations in our dataset and we did not thoroughly examine the causal effects of our explanatory variables. 
 
 
 
