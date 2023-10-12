@@ -6,7 +6,7 @@ Alina Khindanova, Audrey Peres, Kimberly Hu, Lydia Liu, & Marco Rodriguez
 
 # Introduction 
 
-In this project, we are interested in investigating the association between academic performance (high school meeting level STAAR scores) and the average temperatures in the area (average of monthly maximum and minimum temperatures from August 1, 2018 to June 1, 2019). Our analysis is focused on high schools in Texas. We run a linear regression of scores with respect to maximum and minimum temperatures with the goal of determining if regional temperatures can potentially affect high school students' academic performance. In order to limit the influence of confounding and other extraneous variables, we use class size, teachers' average experience, percent of teacher’s with a Master’s degree, median household income, the GINI index, and poverty rate as control variables. 
+Educational achievement in high schools, exemplified by the State of Texas Assessments of Academic Readiness (STAAR) scores, is influenced by many factors, both conventional and unconventional. While determinants like class size, teacher experience, and socioeconomic indicators such as median household income and the GINI index have been frequently explored, this project uniquely integrates environmental factors, specifically average maximum and minimum temperatures. Our study aims to ascertain whether variables like average temperatures, class size, teacher qualifications, and economic indicators can determine the percentage of high school students achieving meeting-level STAAR scores. The ultimate goal is to discern which can serve as robust indicators, enhancing our understanding of the determinants of academic achievement and the potential influences they can have.
 
 # Data
 
