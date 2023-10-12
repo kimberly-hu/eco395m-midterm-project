@@ -121,7 +121,7 @@ We also observed a significant impact of the percentage of teachers with masterâ
 
 With respect to temperature variables, we observed that average minimum temperature slightly affects students' US history grades negatively; specifically, for every 1-degree increase in average minimum temperature, there was a 0.26-point decrease in US history grades. Lastly, when examining the census variables, we discovered that the poverty rate has a negative impact on students' performance in the subjects of Biology and English.
 
-We did not find any significant effect on student performance for average maximum temperature, average minimum temperature, median household income, GINI index, or poverty rate at a level of 1%. 
+We did not find any significant effect on student performance for average maximum temperature, median household income, or GINI index at a level of 1%. 
 
 ![correlation_matrix_english](https://github.com/kimberly-hu/eco395m-midterm-project/assets/143051809/303592e6-c1e7-4d25-9e5a-1113f1db1be7)
 
