@@ -1,6 +1,6 @@
 # How to Get the Grade:
 # What has the greatest effect on student performance?
-October 12, 2022
+October 12, 2023
 
 Alina Khindanova, Audrey Peres, Kimberly Hu, Lydia Liu, & Marco Rodriguez
 
