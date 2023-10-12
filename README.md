@@ -31,7 +31,7 @@ County name
 
 3. Income, Inequality, and Poverty Data
 
-Census related data were collected through the Census Bureau API, specifically drawing from the American Community Survey 5-Year data estimates provided by the U.S. Census Bureau. The initial step involved a review of the API documentation to gain insight into data retrieval processes, complemented by practical examples. Furthermore, a comprehensive list of variables accessible via the API was consulted to determine the pertinent data components. We retrieved data at the county level in Texas, including median household income, median family income, the Gini index, population with the ratio of income to poverty level below 1, and total population. Requests were designed to access the 2019 dataset for these variables.
+Census related data were collected through the Census Bureau API, specifically drawing from the American Community Survey 5-Year data estimates provided by the U.S. Census Bureau. The initial step involved a review of the API documentation to gain insight into the data retrieval processes, complemented by practical examples. A comprehensive list of variables accessible via the API was consulted to determine the pertinent data components. We retrieved data at the county level in Texas, including median household income, median family income, the Gini index, population with the ratio of income to poverty level below 1, and total population. Requests were designed to access the 2019 dataset for these variables.
 
 
 # Running the Code
@@ -40,8 +40,7 @@ Our code will be executed in a Python 3 environment and required packages can be
 
 census.py utilizes the Census Bureau API and pulls data related to income, inequality and poverty through get requests. It also calculates the poverty rate as the population with income below the poverty level divided by total population. 
 
-temp_dict.py utilizes the API from SRCC to extract a list of counties in Texas, look for the list of weather stations for each county, and calculate average temperatures for each county based on stations. Beautifulsoup is used to extract the temperature data from the different stations. 
-(not sure what to say here, seems to have duplicates with methodology)
+temp_dict.py utilizes the API from SRCC to extract a list of counties in Texas, look for the list of weather stations for each county, and calculate average temperatures for each county based on the temperatures at stations within that county. Beautifulsoup is used to extract the temperature data from the different stations. 
 
 all_data.py first calls on education.py to merge datasets related to education based on campus, then merges the education data with census data and temperature data based on county. The datasets are cleaned and manipulated using pandas. Observations missing student performance data are removed from our dataset for analysis. 
 
